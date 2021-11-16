@@ -16,6 +16,8 @@
 		426F966D2702FD110086BAF0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F966C2702FD110086BAF0 /* main.m */; };
 		426F96772702FD120086BAF0 /* HeadLineNews_ObjcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F96762702FD120086BAF0 /* HeadLineNews_ObjcTests.m */; };
 		426F96822702FD120086BAF0 /* HeadLineNews_ObjcUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F96812702FD120086BAF0 /* HeadLineNews_ObjcUITests.m */; };
+		426F96902702FD340086BAF0 /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F968F2702FD340086BAF0 /* RSSParser.m */; };
+		426F9696270302480086BAF0 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F9695270302480086BAF0 /* Item.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,10 @@
 		426F967D2702FD120086BAF0 /* HeadLineNews-ObjcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HeadLineNews-ObjcUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		426F96812702FD120086BAF0 /* HeadLineNews_ObjcUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeadLineNews_ObjcUITests.m; sourceTree = "<group>"; };
 		426F96832702FD120086BAF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		426F968F2702FD340086BAF0 /* RSSParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSSParser.m; sourceTree = "<group>"; };
+		426F96912702FD7A0086BAF0 /* RSSParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSParser.h; sourceTree = "<group>"; };
+		426F9695270302480086BAF0 /* Item.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		426F9697270303A10086BAF0 /* Item.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,10 @@
 				426F965E2702FD0E0086BAF0 /* SceneDelegate.m */,
 				426F96602702FD0E0086BAF0 /* ViewController.h */,
 				426F96612702FD0E0086BAF0 /* ViewController.m */,
+				426F96912702FD7A0086BAF0 /* RSSParser.h */,
+				426F968F2702FD340086BAF0 /* RSSParser.m */,
+				426F9697270303A10086BAF0 /* Item.h */,
+				426F9695270302480086BAF0 /* Item.m */,
 				426F96632702FD0E0086BAF0 /* Main.storyboard */,
 				426F96662702FD110086BAF0 /* Assets.xcassets */,
 				426F96682702FD110086BAF0 /* LaunchScreen.storyboard */,
@@ -266,8 +276,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426F9696270302480086BAF0 /* Item.m in Sources */,
 				426F96622702FD0E0086BAF0 /* ViewController.m in Sources */,
 				426F965C2702FD0E0086BAF0 /* AppDelegate.m in Sources */,
+				426F96902702FD340086BAF0 /* RSSParser.m in Sources */,
 				426F966D2702FD110086BAF0 /* main.m in Sources */,
 				426F965F2702FD0E0086BAF0 /* SceneDelegate.m in Sources */,
 			);
@@ -444,6 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCQDVKTS9;
 				INFOPLIST_FILE = "HeadLineNews-Objc/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,6 +475,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCQDVKTS9;
 				INFOPLIST_FILE = "HeadLineNews-Objc/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
