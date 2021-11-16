@@ -18,6 +18,7 @@
 		426F96822702FD120086BAF0 /* HeadLineNews_ObjcUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F96812702FD120086BAF0 /* HeadLineNews_ObjcUITests.m */; };
 		426F96902702FD340086BAF0 /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F968F2702FD340086BAF0 /* RSSParser.m */; };
 		426F9696270302480086BAF0 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F9695270302480086BAF0 /* Item.m */; };
+		429C8F252743BA4700AB05D9 /* HeadLineNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,9 @@
 		426F96912702FD7A0086BAF0 /* RSSParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSParser.h; sourceTree = "<group>"; };
 		426F9695270302480086BAF0 /* Item.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		426F9697270303A10086BAF0 /* Item.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsView.h; sourceTree = "<group>"; };
+		429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeadLineNewsView.m; sourceTree = "<group>"; };
+		429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsViewDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,9 @@
 				426F965E2702FD0E0086BAF0 /* SceneDelegate.m */,
 				426F96602702FD0E0086BAF0 /* ViewController.h */,
 				426F96612702FD0E0086BAF0 /* ViewController.m */,
+				429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */,
+				429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */,
+				429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */,
 				426F96912702FD7A0086BAF0 /* RSSParser.h */,
 				426F968F2702FD340086BAF0 /* RSSParser.m */,
 				426F9697270303A10086BAF0 /* Item.h */,
@@ -280,6 +287,7 @@
 				426F96622702FD0E0086BAF0 /* ViewController.m in Sources */,
 				426F965C2702FD0E0086BAF0 /* AppDelegate.m in Sources */,
 				426F96902702FD340086BAF0 /* RSSParser.m in Sources */,
+				429C8F252743BA4700AB05D9 /* HeadLineNewsView.m in Sources */,
 				426F966D2702FD110086BAF0 /* main.m in Sources */,
 				426F965F2702FD0E0086BAF0 /* SceneDelegate.m in Sources */,
 			);
