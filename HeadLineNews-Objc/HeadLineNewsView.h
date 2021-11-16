@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) CGFloat speed;
 @property (strong, nonatomic) UIColor *textColor;
 @property (strong, nonatomic) UIFont *font;
+@property (assign, nonatomic) CGFloat newsSpacing;
 -(void)startAnimatingWith:(NSArray<Item*> *)items;
 -(void)stopAnimation;
 @end

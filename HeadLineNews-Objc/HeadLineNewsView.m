@@ -25,6 +25,7 @@
     self.speed = 1.0;
     self.textColor = UIColor.whiteColor;
     self.font = [UIFont systemFontOfSize:20];
+    self.newsSpacing = 0;
     self.isRunning = false;
     self.items = @[];
     
@@ -102,7 +103,7 @@
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
     animation.repeatCount = 0;
     animation.duration = self.newsLabel.frame.size.width / 200;
-    animation.fromValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width, 0)];
+    animation.fromValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width + self.newsSpacing, 0)];
     animation.toValue = [NSValue valueWithCGPoint:CGPointMake(-self.newsLabel.frame.size.width, 0)];
     [animation setAdditive:true];
     [animation setRemovedOnCompletion:false];
