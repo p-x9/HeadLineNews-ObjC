@@ -11,7 +11,6 @@
 @interface HeadLineNewsView() <CAAnimationDelegate>
 @property (strong, nonatomic) NSArray<Item*> *items;
 @property (assign, nonatomic) NSInteger currentIndex;
-@property (getter=currentItem, nonatomic) Item *currentItem;
 -(Item*)currentItem;
 @end
 

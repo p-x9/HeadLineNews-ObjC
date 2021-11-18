@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIColor *textColor;
 @property (strong, nonatomic) UIFont *font;
 @property (assign, nonatomic) CGFloat newsSpacing;
+@property (getter=currentItem, nonatomic) Item *currentItem;
 -(void)startAnimatingWith:(NSArray<Item*> *)items;
 -(void)stopAnimation;
 @end
