@@ -53,24 +53,34 @@
     ]];
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    id newValue = change[NSKeyValueChangeNewKey];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([keyPath isEqualToString:@"speed"]){
+-(void)setSpeed:(CGFloat)speed {
+    if (_speed != speed) {
+        _speed = speed;
+        dispatch_async(dispatch_get_main_queue(), ^{
             CALayer *layer = self.newsLabel.layer;
-            layer.timeOffset = [layer convertTime:CACurrentMediaTime() toLayer:nil];
+            layer.timeOffset = [layer convertTime:CACurrentMediaTime() fromLayer:nil];
             layer.beginTime = CACurrentMediaTime();
-            layer.speed = [newValue floatValue];
-        }
-        if([keyPath isEqualToString:@"textColor"]){
-            self.newsLabel.textColor = newValue;
-        }
-        if([keyPath isEqualToString:@"font"]){
-            self.newsLabel.font = newValue;
-        }
-    });
+            layer.speed = speed;
+        });
+    }
+}
+
+-(void)setFont:(UIFont *)font {
+    if (_font != font) {
+        _font = font;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.newsLabel.font = font;
+        });
+    }
+}
+
+-(void)setTextColor:(UIColor *)textColor {
+    if (_textColor != textColor) {
+        _textColor = textColor;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.newsLabel.textColor = textColor;
+        });
+    }
 }
 
 -(void)animation {
