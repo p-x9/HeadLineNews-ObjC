@@ -83,7 +83,7 @@
     self.speedTextField.text = @"1.0";
     self.speedTextField.borderStyle = UITextBorderStyleBezel;
     self.speedTextField.textAlignment = NSTextAlignmentCenter;
-    [self.speedTextField addTarget:self action:@selector(handleSpeedTextField:) forControlEvents:UIControlEventValueChanged];
+    [self.speedTextField addTarget:self action:@selector(handleSpeedTextField:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [speedStackView addArrangedSubview:self.speedSlider];
     [speedStackView addArrangedSubview:self.speedTextField];
     [self.contentStackView addArrangedSubview:speedStackView];
