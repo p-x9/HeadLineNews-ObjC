@@ -15,6 +15,10 @@
 @property (strong, nonatomic) RSSParser *parser;
 @property (strong, nonatomic) NSURL *url;
 @property (strong, nonatomic) HeadLineNewsView *headlineNewsView;
+@property (strong, nonatomic) UIScrollView *contentScrollView;
+@property (strong, nonatomic) UIStackView *contentStackView;
+@property (strong, nonatomic) UISlider *speedSlider;
+@property (strong, nonatomic) UITextField *speedTextField;
 @property (getter=isRunning, nonatomic) BOOL isRunning;
 @end
 
@@ -25,17 +29,85 @@
     
     self.url = [[NSURL alloc] initWithString: @"https://news.yahoo.co.jp/rss/topics/top-picks.xml"];
     self.parser = [[RSSParser alloc] init];
-    [self setupHeadLineNewsView];
+    [self setupViews];
     [self setupGestures];
 }
 
+- (void)setupViews {
+    [self setupHeadLineNewsView];
+    [self setupContentViews];
+    [self setupSettingViews];
+}
+
+- (void)setupContentViews {
+    self.contentScrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+    self.contentStackView = [[UIStackView alloc] initWithFrame: CGRectZero];
+    
+    self.contentStackView.alignment = UIStackViewAlignmentCenter;
+    self.contentStackView.axis = UILayoutConstraintAxisVertical;
+    self.contentStackView.distribution = UIStackViewDistributionEqualSpacing;
+    
+    [self.view addSubview: self.contentScrollView];
+    [self.contentScrollView addSubview: self.contentStackView];
+    
+    self.contentScrollView.translatesAutoresizingMaskIntoConstraints = false;
+    self.contentStackView.translatesAutoresizingMaskIntoConstraints = false;
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.contentScrollView.topAnchor constraintEqualToAnchor:self.headlineNewsView.bottomAnchor constant:48],
+        [self.contentScrollView.leftAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leftAnchor],
+        [self.contentScrollView.rightAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.rightAnchor],
+        [self.contentScrollView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
+    ]];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.contentStackView.topAnchor constraintEqualToAnchor:self.contentScrollView.topAnchor],
+        [self.contentStackView.bottomAnchor constraintEqualToAnchor:self.contentScrollView.bottomAnchor],
+        [self.contentStackView.widthAnchor constraintEqualToAnchor:self.contentScrollView.widthAnchor],
+        [self.contentScrollView.centerXAnchor constraintEqualToAnchor:self.contentScrollView.centerXAnchor]
+    ]];
+}
+
+- (void)setupSettingViews {
+    /* Speed */
+    UIStackView *speedStackView = [self makeSettingSectionStackViewWith:@"Speed"];
+    self.speedSlider = [[UISlider alloc] initWithFrame:CGRectZero];
+    self.speedSlider.continuous = true;
+    self.speedSlider.value = 1.0;
+    self.speedSlider.minimumValue = 0.0;
+    self.speedSlider.maximumValue = 2.0;
+    [self.speedSlider addTarget:self action:@selector(handleSpeedSlider:) forControlEvents:UIControlEventValueChanged];
+    
+    self.speedTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    self.speedTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.speedTextField.text = @"1.0";
+    self.speedTextField.borderStyle = UITextBorderStyleBezel;
+    self.speedTextField.textAlignment = NSTextAlignmentCenter;
+    [self.speedTextField addTarget:self action:@selector(handleSpeedTextField:) forControlEvents:UIControlEventValueChanged];
+    [speedStackView addArrangedSubview:self.speedSlider];
+    [speedStackView addArrangedSubview:self.speedTextField];
+    [self.contentStackView addArrangedSubview:speedStackView];
+    [NSLayoutConstraint activateConstraints:@[
+        [speedStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
+        [self.speedTextField.widthAnchor constraintEqualToConstant:40]
+    ]];
+}
+
+
 - (void)setupHeadLineNewsView {
     self.headlineNewsView = [[HeadLineNewsView alloc] initWithFrame:CGRectZero];
-    self.headlineNewsView.frame = CGRectMake(0, 100, UIScreen.mainScreen.bounds.size.width, 50);
     self.headlineNewsView.speed = 0.8;
     self.headlineNewsView.delegate = self;
     
     [self.view addSubview: self.headlineNewsView];
+    
+    self.headlineNewsView.translatesAutoresizingMaskIntoConstraints = false;
+    [NSLayoutConstraint activateConstraints:@[
+        [self.headlineNewsView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+        [self.headlineNewsView.leftAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leftAnchor],
+        [self.headlineNewsView.rightAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.rightAnchor],
+        [self.headlineNewsView.heightAnchor constraintEqualToConstant:50]
+    ]];
 }
 
 - (void)setupGestures {
@@ -44,6 +116,23 @@
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTap:)];
     [self.headlineNewsView addGestureRecognizer:longPressGesture];
+}
+
+-(UIStackView *)makeSettingSectionStackViewWith:(NSString *)title{
+    UIStackView *stackView = [[UIStackView alloc] initWithFrame:CGRectZero];
+    stackView.axis = UILayoutConstraintAxisHorizontal;
+    stackView.alignment = UIStackViewAlignmentCenter;
+    stackView.distribution = UIStackViewDistributionFill;
+    stackView.spacing = 24;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = title;
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    
+    [stackView addArrangedSubview:label];
+    
+    
+    return stackView;
 }
 
 - (void)headLineNewsView:(HeadLineNewsView *)view animationEndedWith:(NSArray<Item *> *)items{
@@ -76,6 +165,16 @@
 
 - (void)longTap:(UIGestureRecognizer *)sender {
     [self.headlineNewsView stopAnimation];
+}
+
+- (void)handleSpeedSlider:(UISlider *)sender {
+    self.headlineNewsView.speed = sender.value;
+    self.speedTextField.text = [NSString stringWithFormat:@"%.1f",sender.value];
+}
+
+- (void)handleSpeedTextField:(UITextField *)sender {
+    self.headlineNewsView.speed = sender.text.floatValue;
+    self.speedSlider.value = sender.text.floatValue;
 }
 
 - (void)openLink {
