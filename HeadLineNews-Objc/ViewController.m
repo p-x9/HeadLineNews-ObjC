@@ -46,6 +46,7 @@
     self.contentStackView.alignment = UIStackViewAlignmentCenter;
     self.contentStackView.axis = UILayoutConstraintAxisVertical;
     self.contentStackView.distribution = UIStackViewDistributionEqualSpacing;
+    self.contentStackView.spacing = 12;
     
     [self.view addSubview: self.contentScrollView];
     [self.contentScrollView addSubview: self.contentStackView];
@@ -91,6 +92,33 @@
         [speedStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
         [self.speedTextField.widthAnchor constraintEqualToConstant:40]
     ]];
+    
+    /* Text Color */
+    UIStackView *textColorStackView = [self makeSettingSectionStackViewWith:@"Text Color"];
+    UIColorWell *textColorwell = [[UIColorWell alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    textColorwell.title = @"Text Color";
+    textColorwell.selectedColor = self.headlineNewsView.textColor;
+    [textColorwell addTarget:self action:@selector(handleTextColorWell:) forControlEvents:UIControlEventValueChanged];
+    
+    [textColorStackView addArrangedSubview:textColorwell];
+    [self.contentStackView addArrangedSubview:textColorStackView];
+    [NSLayoutConstraint activateConstraints:@[
+        [textColorStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
+    ]];
+    
+    /* Background Color */
+    UIStackView *backColorStackView = [self makeSettingSectionStackViewWith:@"Background Color"];
+    UIColorWell *backColorwell = [[UIColorWell alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    backColorwell.title = @"Background Color";
+    backColorwell.selectedColor = self.headlineNewsView.backgroundColor;
+    [backColorwell addTarget:self action:@selector(handleBackColorWell:) forControlEvents:UIControlEventValueChanged];
+    
+    [backColorStackView addArrangedSubview:backColorwell];
+    [self.contentStackView addArrangedSubview:backColorStackView];
+    [NSLayoutConstraint activateConstraints:@[
+        [backColorStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
+    ]];
+    
 }
 
 
@@ -175,6 +203,14 @@
 - (void)handleSpeedTextField:(UITextField *)sender {
     self.headlineNewsView.speed = sender.text.floatValue;
     self.speedSlider.value = sender.text.floatValue;
+}
+
+-(void)handleTextColorWell:(UIColorWell *)sender {
+    self.headlineNewsView.textColor = sender.selectedColor;
+}
+
+-(void)handleBackColorWell:(UIColorWell *)sender {
+    self.headlineNewsView.backgroundColor = sender.selectedColor;
 }
 
 - (void)openLink {
