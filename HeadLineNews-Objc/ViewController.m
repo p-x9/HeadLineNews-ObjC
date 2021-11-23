@@ -19,6 +19,8 @@
 @property (strong, nonatomic) UIStackView *contentStackView;
 @property (strong, nonatomic) UISlider *speedSlider;
 @property (strong, nonatomic) UITextField *speedTextField;
+@property (strong, nonatomic) UISlider *fontSizeSlider;
+@property (strong, nonatomic) UITextField *fontSizeTextField;
 @property (getter=isRunning, nonatomic) BOOL isRunning;
 @end
 
@@ -93,10 +95,34 @@
         [self.speedTextField.widthAnchor constraintEqualToConstant:40]
     ]];
     
+    /* Font Size */
+    UIStackView *fontSizeStackView = [self makeSettingSectionStackViewWith:@"Font Size"];
+    self.fontSizeSlider = [[UISlider alloc] initWithFrame:CGRectZero];
+    self.fontSizeSlider.continuous = true;
+    self.fontSizeSlider.contentScaleFactor = 1;
+    self.fontSizeSlider.minimumValue = 10;
+    self.fontSizeSlider.maximumValue = 30;
+    self.fontSizeSlider.value = self.headlineNewsView.font.pointSize;
+    [self.fontSizeSlider addTarget:self action:@selector(handleFontSizeSlider:) forControlEvents:UIControlEventValueChanged];
+    
+    self.fontSizeTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    self.fontSizeTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.fontSizeTextField.text = @"10";
+    self.fontSizeTextField.borderStyle = UITextBorderStyleBezel;
+    self.fontSizeTextField.textAlignment = NSTextAlignmentCenter;
+    [self.fontSizeTextField addTarget:self action:@selector(handleFontSizeTextField:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [fontSizeStackView addArrangedSubview:self.fontSizeSlider];
+    [fontSizeStackView addArrangedSubview:self.fontSizeTextField];
+    [self.contentStackView addArrangedSubview:fontSizeStackView];
+    [NSLayoutConstraint activateConstraints:@[
+        [fontSizeStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
+        [self.fontSizeTextField.widthAnchor constraintEqualToConstant:40]
+    ]];
+    
     /* Text Color */
-    UIStackView *textColorStackView = [self makeSettingSectionStackViewWith:@"Text Color"];
+    UIStackView *textColorStackView = [self makeSettingSectionStackViewWith:@"Font Color"];
     UIColorWell *textColorwell = [[UIColorWell alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    textColorwell.title = @"Text Color";
+    textColorwell.title = @"Font Color";
     textColorwell.selectedColor = self.headlineNewsView.textColor;
     [textColorwell addTarget:self action:@selector(handleTextColorWell:) forControlEvents:UIControlEventValueChanged];
     
@@ -202,6 +228,16 @@
 
 - (void)handleSpeedTextField:(UITextField *)sender {
     self.headlineNewsView.speed = sender.text.floatValue;
+    self.speedSlider.value = sender.text.floatValue;
+}
+
+- (void)handleFontSizeSlider:(UISlider *)sender {
+    self.headlineNewsView.font = [UIFont fontWithName:self.headlineNewsView.font.fontName size:sender.value];
+    self.fontSizeTextField.text = [NSString stringWithFormat:@"%.0f",sender.value];
+}
+
+- (void)handleFontSizeTextField:(UITextField *)sender {
+    self.headlineNewsView.font = [UIFont fontWithName:self.headlineNewsView.font.fontName size:sender.text.floatValue];
     self.speedSlider.value = sender.text.floatValue;
 }
 
