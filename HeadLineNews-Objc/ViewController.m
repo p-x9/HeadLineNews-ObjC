@@ -282,6 +282,7 @@
 
 - (void)handleSpeedTextField:(UITextField *)sender {
     self.headlineNewsView.speed = sender.text.floatValue;
+    sender.text = [NSString stringWithFormat:@"%.1f",sender.text.floatValue];
     self.speedSlider.value = sender.text.floatValue;
 }
 
@@ -292,7 +293,8 @@
 
 - (void)handleFontSizeTextField:(UITextField *)sender {
     self.headlineNewsView.font = [UIFont fontWithName:self.headlineNewsView.font.fontName size:sender.text.floatValue];
-    self.speedSlider.value = sender.text.floatValue;
+    sender.text = [NSString stringWithFormat:@"%.0f",sender.text.floatValue];
+    self.fontSizeSlider.value = sender.text.floatValue;
 }
 
 -(void)handleTextColorWell:(UIColorWell *)sender {
