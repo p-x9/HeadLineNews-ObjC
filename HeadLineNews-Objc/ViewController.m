@@ -154,12 +154,11 @@
 
 - (void)setupSettingViews {
     /* Speed */
-    UIStackView *speedStackView = [self makeSettingSectionStackViewWith:@"Speed"];
+    UIStackView *speedStackView = [self makeSettingSectionStackViewWith:@"Speed"
+                                                       arrangedSubViews:@[self.speedSlider, self.speedTextField]];
     [self.speedSlider addTarget:self action:@selector(handleSpeedSlider:) forControlEvents:UIControlEventValueChanged];
     [self.speedTextField addTarget:self action:@selector(handleSpeedTextField:) forControlEvents:UIControlEventEditingDidEndOnExit];
     self.speedTextField.text = [NSString stringWithFormat:@"%.1f",self.headlineNewsView.speed];
-    [speedStackView addArrangedSubview:self.speedSlider];
-    [speedStackView addArrangedSubview:self.speedTextField];
     [self.contentStackView addArrangedSubview:speedStackView];
     [NSLayoutConstraint activateConstraints:@[
         [speedStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
@@ -167,13 +166,12 @@
     ]];
     
     /* Font Size */
-    UIStackView *fontSizeStackView = [self makeSettingSectionStackViewWith:@"Font Size"];
+    UIStackView *fontSizeStackView = [self makeSettingSectionStackViewWith:@"Font Size"
+                                                          arrangedSubViews:@[self.fontSizeSlider, self.fontSizeTextField]];
     self.fontSizeSlider.value = self.headlineNewsView.font.pointSize;
     [self.fontSizeSlider addTarget:self action:@selector(handleFontSizeSlider:) forControlEvents:UIControlEventValueChanged];
     [self.fontSizeTextField addTarget:self action:@selector(handleFontSizeTextField:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    self.speedTextField.text = [NSString stringWithFormat:@"%.0f",self.headlineNewsView.font.pointSize];
-    [fontSizeStackView addArrangedSubview:self.fontSizeSlider];
-    [fontSizeStackView addArrangedSubview:self.fontSizeTextField];
+    self.fontSizeTextField.text = [NSString stringWithFormat:@"%.0f",self.headlineNewsView.font.pointSize];
     [self.contentStackView addArrangedSubview:fontSizeStackView];
     [NSLayoutConstraint activateConstraints:@[
         [fontSizeStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
@@ -181,21 +179,20 @@
     ]];
     
     /* Text Color */
-    UIStackView *textColorStackView = [self makeSettingSectionStackViewWith:@"Font Color"];
+    UIStackView *textColorStackView = [self makeSettingSectionStackViewWith:@"Font Color"
+                                                           arrangedSubViews:@[self.textColorwell]];
     self.textColorwell.selectedColor = self.headlineNewsView.textColor;
     [self.textColorwell addTarget:self action:@selector(handleTextColorWell:) forControlEvents:UIControlEventValueChanged];
-    [textColorStackView addArrangedSubview:self.textColorwell];
     [self.contentStackView addArrangedSubview:textColorStackView];
     [NSLayoutConstraint activateConstraints:@[
         [textColorStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
     ]];
     
     /* Background Color */
-    UIStackView *backColorStackView = [self makeSettingSectionStackViewWith:@"Background Color"];
+    UIStackView *backColorStackView = [self makeSettingSectionStackViewWith:@"Background Color"
+                                                           arrangedSubViews:@[self.backColorwell]];
     self.backColorwell.selectedColor = self.headlineNewsView.backgroundColor;
     [self.backColorwell addTarget:self action:@selector(handleBackColorWell:) forControlEvents:UIControlEventValueChanged];
-    
-    [backColorStackView addArrangedSubview:self.backColorwell];
     [self.contentStackView addArrangedSubview:backColorStackView];
     [NSLayoutConstraint activateConstraints:@[
         [backColorStackView.widthAnchor constraintEqualToAnchor:self.contentStackView.widthAnchor constant:-48],
@@ -226,7 +223,7 @@
     [self.headlineNewsView addGestureRecognizer:longPressGesture];
 }
 
--(UIStackView *)makeSettingSectionStackViewWith:(NSString *)title{
+-(UIStackView *)makeSettingSectionStackViewWith:(NSString *)title arrangedSubViews:(nonnull NSArray<__kindof UIView *> *)views {
     UIStackView *stackView = [[UIStackView alloc] initWithFrame:CGRectZero];
     stackView.axis = UILayoutConstraintAxisHorizontal;
     stackView.alignment = UIStackViewAlignmentCenter;
@@ -239,6 +236,9 @@
     
     [stackView addArrangedSubview:label];
     
+    [views enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [stackView addArrangedSubview:obj];
+    }];
     
     return stackView;
 }
