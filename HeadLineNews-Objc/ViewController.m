@@ -28,6 +28,34 @@
 
 @implementation ViewController
 
+- (HeadLineNewsView *)headlineNewsView {
+    if(!_headlineNewsView){
+        _headlineNewsView = [[HeadLineNewsView alloc] initWithFrame:CGRectZero];
+        _headlineNewsView.speed = 0.8;
+    }
+    return _headlineNewsView;
+}
+
+- (UIScrollView *)contentScrollView {
+    if(!_contentScrollView){
+        _contentScrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+    }
+    return _contentScrollView;
+}
+
+- (UIStackView *)contentStackView {
+    if(!_contentStackView){
+        _contentStackView = [[UIStackView alloc] initWithFrame: CGRectZero];
+        
+        _contentStackView.alignment = UIStackViewAlignmentCenter;
+        _contentStackView.axis = UILayoutConstraintAxisVertical;
+        _contentStackView.distribution = UIStackViewDistributionEqualSpacing;
+        _contentStackView.spacing = 12;
+    }
+    
+    return _contentStackView;
+}
+
 - (UISlider *)speedSlider {
     if(!_speedSlider) {
         _speedSlider = [[UISlider alloc] initWithFrame:CGRectZero];
@@ -103,14 +131,6 @@
 }
 
 - (void)setupContentViews {
-    self.contentScrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
-    self.contentStackView = [[UIStackView alloc] initWithFrame: CGRectZero];
-    
-    self.contentStackView.alignment = UIStackViewAlignmentCenter;
-    self.contentStackView.axis = UILayoutConstraintAxisVertical;
-    self.contentStackView.distribution = UIStackViewDistributionEqualSpacing;
-    self.contentStackView.spacing = 12;
-    
     [self.view addSubview: self.contentScrollView];
     [self.contentScrollView addSubview: self.contentStackView];
     
@@ -185,8 +205,6 @@
 
 
 - (void)setupHeadLineNewsView {
-    self.headlineNewsView = [[HeadLineNewsView alloc] initWithFrame:CGRectZero];
-    self.headlineNewsView.speed = 0.8;
     self.headlineNewsView.delegate = self;
     
     [self.view addSubview: self.headlineNewsView];
@@ -239,7 +257,7 @@
     }];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
-    return  items;
+    return items;
 }
 
 - (void)tap:(UIGestureRecognizer *)sender {
@@ -294,7 +312,7 @@
 }
 
 - (BOOL)isRunning {
-    return  self.headlineNewsView.isRunning;
+    return self.headlineNewsView.isRunning;
 }
 
 
