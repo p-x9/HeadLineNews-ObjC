@@ -120,13 +120,10 @@
 				426F965E2702FD0E0086BAF0 /* SceneDelegate.m */,
 				426F96602702FD0E0086BAF0 /* ViewController.h */,
 				426F96612702FD0E0086BAF0 /* ViewController.m */,
-				429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */,
-				429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */,
-				429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */,
+				42EEAB0A274F4D590076A8DE /* View */,
+				42EEAB09274F4D480076A8DE /* Model */,
 				426F96912702FD7A0086BAF0 /* RSSParser.h */,
 				426F968F2702FD340086BAF0 /* RSSParser.m */,
-				426F9697270303A10086BAF0 /* Item.h */,
-				426F9695270302480086BAF0 /* Item.m */,
 				426F96632702FD0E0086BAF0 /* Main.storyboard */,
 				426F96662702FD110086BAF0 /* Assets.xcassets */,
 				426F96682702FD110086BAF0 /* LaunchScreen.storyboard */,
@@ -152,6 +149,25 @@
 				426F96832702FD120086BAF0 /* Info.plist */,
 			);
 			path = "HeadLineNews-ObjcUITests";
+			sourceTree = "<group>";
+		};
+		42EEAB09274F4D480076A8DE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				426F9697270303A10086BAF0 /* Item.h */,
+				426F9695270302480086BAF0 /* Item.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		42EEAB0A274F4D590076A8DE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */,
+				429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */,
+				429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
