@@ -18,6 +18,8 @@
 		426F96822702FD120086BAF0 /* HeadLineNews_ObjcUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F96812702FD120086BAF0 /* HeadLineNews_ObjcUITests.m */; };
 		426F96902702FD340086BAF0 /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F968F2702FD340086BAF0 /* RSSParser.m */; };
 		426F9696270302480086BAF0 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F9695270302480086BAF0 /* Item.m */; };
+		4273DA722752C1390078243D /* NSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4273DA712752C1390078243D /* NSData.m */; };
+		4273DA742752CAF80078243D /* UIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4273DA732752CAF80078243D /* UIImage.m */; };
 		429C8F252743BA4700AB05D9 /* HeadLineNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +63,12 @@
 		426F96912702FD7A0086BAF0 /* RSSParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSSParser.h; sourceTree = "<group>"; };
 		426F9695270302480086BAF0 /* Item.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		426F9697270303A10086BAF0 /* Item.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		4273DA672752A05B0078243D /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		4273DA692752A0970078243D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4273DA712752C1390078243D /* NSData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSData.m; sourceTree = "<group>"; };
+		4273DA732752CAF80078243D /* UIImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIImage.m; sourceTree = "<group>"; };
+		4273DA752752CB290078243D /* NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSData.h; sourceTree = "<group>"; };
+		4273DA762752CB480078243D /* UIImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImage.h; sourceTree = "<group>"; };
 		429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsView.h; sourceTree = "<group>"; };
 		429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeadLineNewsView.m; sourceTree = "<group>"; };
 		429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsViewDelegate.h; sourceTree = "<group>"; };
@@ -98,6 +106,7 @@
 				426F96752702FD120086BAF0 /* HeadLineNews-ObjcTests */,
 				426F96802702FD120086BAF0 /* HeadLineNews-ObjcUITests */,
 				426F96582702FD0E0086BAF0 /* Products */,
+				4273DA662752A05B0078243D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -120,6 +129,7 @@
 				426F965E2702FD0E0086BAF0 /* SceneDelegate.m */,
 				426F96602702FD0E0086BAF0 /* ViewController.h */,
 				426F96612702FD0E0086BAF0 /* ViewController.m */,
+				4273DA772752CBB70078243D /* Extension */,
 				42EEAB0A274F4D590076A8DE /* View */,
 				42EEAB09274F4D480076A8DE /* Model */,
 				426F96912702FD7A0086BAF0 /* RSSParser.h */,
@@ -149,6 +159,26 @@
 				426F96832702FD120086BAF0 /* Info.plist */,
 			);
 			path = "HeadLineNews-ObjcUITests";
+			sourceTree = "<group>";
+		};
+		4273DA662752A05B0078243D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4273DA692752A0970078243D /* AVFoundation.framework */,
+				4273DA672752A05B0078243D /* AVKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4273DA772752CBB70078243D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4273DA752752CB290078243D /* NSData.h */,
+				4273DA712752C1390078243D /* NSData.m */,
+				4273DA762752CB480078243D /* UIImage.h */,
+				4273DA732752CAF80078243D /* UIImage.m */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		42EEAB09274F4D480076A8DE /* Model */ = {
@@ -236,6 +266,7 @@
 				TargetAttributes = {
 					426F96562702FD0E0086BAF0 = {
 						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1310;
 					};
 					426F96712702FD120086BAF0 = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -302,8 +333,10 @@
 				426F9696270302480086BAF0 /* Item.m in Sources */,
 				426F96622702FD0E0086BAF0 /* ViewController.m in Sources */,
 				426F965C2702FD0E0086BAF0 /* AppDelegate.m in Sources */,
+				4273DA722752C1390078243D /* NSData.m in Sources */,
 				426F96902702FD340086BAF0 /* RSSParser.m in Sources */,
 				429C8F252743BA4700AB05D9 /* HeadLineNewsView.m in Sources */,
+				4273DA742752CAF80078243D /* UIImage.m in Sources */,
 				426F966D2702FD110086BAF0 /* main.m in Sources */,
 				426F965F2702FD0E0086BAF0 /* SceneDelegate.m in Sources */,
 			);
@@ -411,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -464,7 +497,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -477,16 +510,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCQDVKTS9;
 				INFOPLIST_FILE = "HeadLineNews-Objc/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.p-x9.HeadLineNews-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -496,16 +533,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCQDVKTS9;
 				INFOPLIST_FILE = "HeadLineNews-Objc/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.p-x9.HeadLineNews-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
