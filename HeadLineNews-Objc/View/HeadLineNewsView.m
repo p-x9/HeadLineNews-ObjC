@@ -11,6 +11,7 @@
 @interface HeadLineNewsView() <CAAnimationDelegate>
 @property (strong, nonatomic) NSArray<Item*> *items;
 @property (assign, nonatomic) NSInteger currentIndex;
+@property (strong, nonatomic) CADisplayLink *link;
 -(Item*)currentItem;
 @end
 
@@ -26,11 +27,18 @@
     self.font = [UIFont systemFontOfSize:20];
     self.newsSpacing = 0;
     self.isRunning = false;
+    self.usePip = false;
     self.items = @[];
     
     [self setupView];
     
     return  self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    [self updateFrame];
 }
 
 -(Item*)currentItem {
@@ -46,11 +54,6 @@
     self.newsLabel.font = self.font;
     
     [self addSubview:self.newsLabel];
-    
-    self.newsLabel.translatesAutoresizingMaskIntoConstraints = false;
-    [NSLayoutConstraint activateConstraints:@[
-        [self.newsLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor]
-    ]];
 }
 
 -(void)setSpeed:(CGFloat)speed {
@@ -70,6 +73,7 @@
         _font = font;
         dispatch_async(dispatch_get_main_queue(), ^{
             self.newsLabel.font = font;
+            [self updateFrame];
         });
     }
 }
@@ -81,6 +85,14 @@
             self.newsLabel.textColor = textColor;
         });
     }
+}
+
+-(void)updateFrame {
+    [self.newsLabel sizeToFit];
+    self.newsLabel.frame = CGRectMake(self.newsLabel.frame.origin.x,
+                                      (self.frame.size.height-self.newsLabel.frame.size.height)/2,
+                                      self.newsLabel.frame.size.width,
+                                      self.newsLabel.frame.size.height);
 }
 
 -(void)animation {
@@ -108,6 +120,48 @@
     
 }
 
+-(void)animationForPip {
+    self.isRunning = true;
+    self.currentIndex = 1;
+    Item *item = self.items[self.currentIndex];
+    NSString *news = [[NSString alloc] initWithFormat:@"【%@】 %@",item.title,item.itemDescription];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.newsLabel.text = news;
+        [self.newsLabel sizeToFit];
+        self.newsLabel.frame = CGRectMake(self.frame.size.width + self.newsSpacing, self.newsLabel.frame.origin.y, self.newsLabel.frame.size.width, self.newsLabel.frame.size.height);
+        
+        self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+        [self.link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    });
+}
+
+- (void)handleDisplayLink:(CADisplayLink *)displayLink{
+    CGFloat duration = self.newsLabel.frame.size.width / 200;
+    CGFloat dx = (self.frame.size.width + self.newsSpacing +self.newsLabel.frame.size.width)/(duration*60)*self.speed;
+    if(self.newsLabel.frame.origin.x > -self.newsLabel.frame.size.width+dx){
+        self.newsLabel.frame = CGRectMake(self.newsLabel.frame.origin.x-dx, self.newsLabel.frame.origin.y, self.newsLabel.frame.size.width, self.newsLabel.frame.size.height);
+    }
+    else{
+        self.currentIndex++;
+        if (self.currentIndex < self.items.count) {
+            Item *item = self.items[self.currentIndex];
+            NSString *news = [[NSString alloc] initWithFormat:@"【%@】 %@",item.title,item.itemDescription];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.newsLabel.text = news;
+                [self.newsLabel sizeToFit];
+                self.newsLabel.frame = CGRectMake(self.frame.size.width + self.newsSpacing, self.newsLabel.frame.origin.y, self.newsLabel.frame.size.width, self.newsLabel.frame.size.height);
+            });
+        }
+        else {
+            [self.delegate headLineNewsView:self animationEndedWith:self.items];
+            NSArray<Item*> *items = [self.delegate nextItemsForView:self];
+            if (!items || items.count <= 0) return;
+            self.items = items;
+            self.currentIndex = -1;
+        }
+    }
+}
+
 -(void)setAnimation {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
     animation.repeatCount = 0;
@@ -126,7 +180,7 @@
     if (!items || items.count <= 0) return;
     self.items = items;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self animation];
+        self.usePip ?  [self animationForPip] : [self animation];
     });
 }
 
@@ -136,6 +190,7 @@
         self.isRunning = false;
         self.newsLabel.text = @"";
         [self.newsLabel.layer removeAllAnimations];
+        [self.link invalidate];
     });
 }
 

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UILabel *newsLabel;
 @property (weak, nonatomic, nullable) id <HeadLineNewsViewDelegate> delegate;
 @property (assign, nonatomic) BOOL isRunning;
+@property (assign, nonatomic) BOOL usePip;
 @property (assign, nonatomic) CGFloat speed;
 @property (strong, nonatomic) UIColor *textColor;
 @property (strong, nonatomic) UIFont *font;

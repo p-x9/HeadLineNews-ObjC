@@ -8,10 +8,12 @@
 
 #import "ViewController.h"
 #import <SafariServices/SafariServices.h>
+#import <AVKit/AVKit.h>
 #import "HeadLineNewsView.h"
 #import "RSSParser.h"
+#import "UIImage.h"
 
-@interface ViewController () <HeadLineNewsViewDelegate>
+@interface ViewController () <HeadLineNewsViewDelegate, AVPictureInPictureSampleBufferPlaybackDelegate>
 @property (strong, nonatomic) RSSParser *parser;
 @property (strong, nonatomic) NSURL *url;
 @property (strong, nonatomic) HeadLineNewsView *headlineNewsView;
@@ -23,6 +25,9 @@
 @property (strong, nonatomic) UITextField *fontSizeTextField;
 @property (strong, nonatomic) UIColorWell *textColorwell;
 @property (strong, nonatomic) UIColorWell *backColorwell;
+@property (strong, nonatomic) AVPictureInPictureController *pipController;
+@property (strong, nonatomic) AVSampleBufferDisplayLayer *playerLayer;
+@property (strong, nonatomic) CADisplayLink *link;
 @property (getter=isRunning, nonatomic) BOOL isRunning;
 @end
 
@@ -30,8 +35,9 @@
 
 - (HeadLineNewsView *)headlineNewsView {
     if(!_headlineNewsView){
-        _headlineNewsView = [[HeadLineNewsView alloc] initWithFrame:CGRectZero];
+        _headlineNewsView = [[HeadLineNewsView alloc] initWithFrame:CGRectMake(0, 20, UIScreen.mainScreen.bounds.size.width, 40)];
         _headlineNewsView.speed = 0.8;
+        _headlineNewsView.usePip = true;
     }
     return _headlineNewsView;
 }
@@ -115,8 +121,16 @@
     return _backColorwell;
 }
 
+- (BOOL)isRunning {
+    return self.headlineNewsView.isRunning;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    AVAudioSession *session = AVAudioSession.sharedInstance;
+    [session setCategory:AVAudioSessionCategoryPlayback mode:AVAudioSessionModeVideoChat options:0 error:nil];
+    [session setActive:true error:nil];
     
     self.url = [[NSURL alloc] initWithString: @"https://news.yahoo.co.jp/rss/topics/top-picks.xml"];
     self.parser = [[RSSParser alloc] init];
@@ -219,6 +233,12 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     [self.headlineNewsView addGestureRecognizer:tapGesture];
     
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.headlineNewsView addGestureRecognizer:doubleTapGesture];
+    
+    [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTap:)];
     [self.headlineNewsView addGestureRecognizer:longPressGesture];
 }
@@ -243,21 +263,36 @@
     return stackView;
 }
 
-- (void)headLineNewsView:(HeadLineNewsView *)view animationEndedWith:(NSArray<Item *> *)items{
+- (void)startPictureInPicture {
+    self.playerLayer = [[AVSampleBufferDisplayLayer alloc] init];
+    self.playerLayer.frame = CGRectMake(0, 500, self.headlineNewsView.bounds.size.width, self.headlineNewsView.bounds.size.height);
+    
+    self.playerLayer.borderWidth = 1;
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    [self.view.layer addSublayer:self.playerLayer];
+    
+    self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+    [self.link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    AVPictureInPictureControllerContentSource *source = [[AVPictureInPictureControllerContentSource alloc] initWithSampleBufferDisplayLayer:self.playerLayer playbackDelegate:self];
+    self.pipController = [[AVPictureInPictureController alloc] initWithContentSource:source];
 }
 
-- (NSArray<Item *> *)nextItemsForView:(HeadLineNewsView *)view {
-    __block NSArray<Item *> *items = @[];
-    
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    
-    [self.parser parseWithURL:self.url completionHandler:^(NSArray *loadedItems, NSError *error) {
-        items = loadedItems;
-        dispatch_semaphore_signal(semaphore);
+- (void)updateBuffer {
+    UIGraphicsImageRenderer *imageRenderer = [[UIGraphicsImageRenderer alloc] initWithSize:self.headlineNewsView.bounds.size];
+    UIImage *image = [imageRenderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
+        [self.headlineNewsView.layer.presentationLayer renderInContext:rendererContext.CGContext];
     }];
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
-    return items;
+    [self.playerLayer flush];
+    [self.playerLayer enqueueSampleBuffer: image.cmSampleBuffer];
+}
+
+- (void)handleDisplayLink:(CADisplayLink *)displayLink{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateBuffer];
+    });
+    
 }
 
 - (void)tap:(UIGestureRecognizer *)sender {
@@ -268,6 +303,19 @@
         }];
     } else {
         [self openLink];
+    }
+}
+
+- (void)doubleTap:(UIGestureRecognizer *)sender {
+    if(!self.pipController){
+        [self startPictureInPicture];
+    }
+    else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.pipController.isPictureInPicturePossible){
+                [self.pipController startPictureInPicture];
+            }
+        });
     }
 }
 
@@ -313,8 +361,44 @@
     [self presentViewController:safariVC animated:true completion:nil];
 }
 
-- (BOOL)isRunning {
-    return self.headlineNewsView.isRunning;
+
+// MARK: HeadLineNewsViewDelegate
+- (void)headLineNewsView:(HeadLineNewsView *)view animationEndedWith:(NSArray<Item *> *)items{
+}
+
+- (NSArray<Item *> *)nextItemsForView:(HeadLineNewsView *)view {
+    __block NSArray<Item *> *items = @[];
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+    [self.parser parseWithURL:self.url completionHandler:^(NSArray *loadedItems, NSError *error) {
+        items = loadedItems;
+        dispatch_semaphore_signal(semaphore);
+    }];
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    
+    return items;
+}
+
+
+// MARK: AVPictureInPictureSampleBufferPlaybackDelegate
+- (void)pictureInPictureController:(AVPictureInPictureController *)pictureInPictureController setPlaying:(BOOL)playing{
+    
+}
+- (CMTimeRange)pictureInPictureControllerTimeRangeForPlayback:(AVPictureInPictureController *)pictureInPictureController{
+    return CMTimeRangeMake(kCMTimeNegativeInfinity, kCMTimePositiveInfinity);
+}
+
+- (BOOL)pictureInPictureControllerIsPlaybackPaused:(AVPictureInPictureController *)pictureInPictureController{
+    return false;
+}
+
+- (void)pictureInPictureController:(AVPictureInPictureController *)pictureInPictureController skipByInterval:(CMTime)skipInterval completionHandler:(void (^)(void))completionHandler{
+    completionHandler();
+}
+
+- (void)pictureInPictureController:(AVPictureInPictureController *)pictureInPictureController didTransitionToRenderSize:(CMVideoDimensions)newRenderSize{
+    
 }
 
 
