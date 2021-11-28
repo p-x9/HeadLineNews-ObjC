@@ -335,14 +335,16 @@
 }
 
 - (void)handleFontSizeSlider:(UISlider *)sender {
-    self.headlineNewsView.font = [UIFont fontWithName:self.headlineNewsView.font.fontName size:sender.value];
-    self.fontSizeTextField.text = [NSString stringWithFormat:@"%.0f",sender.value];
+    CGFloat size = sender.value;
+    self.headlineNewsView.font = [UIFont systemFontOfSize:size];
+    self.fontSizeTextField.text = [NSString stringWithFormat:@"%.0f",size];
 }
 
 - (void)handleFontSizeTextField:(UITextField *)sender {
-    self.headlineNewsView.font = [UIFont fontWithName:self.headlineNewsView.font.fontName size:sender.text.floatValue];
-    sender.text = [NSString stringWithFormat:@"%.0f",sender.text.floatValue];
-    self.fontSizeSlider.value = sender.text.floatValue;
+    CGFloat size = sender.text.floatValue;
+    self.headlineNewsView.font = [UIFont systemFontOfSize:size];
+    sender.text = [NSString stringWithFormat:@"%.0f",size];
+    self.fontSizeSlider.value = size;
 }
 
 -(void)handleTextColorWell:(UIColorWell *)sender {
