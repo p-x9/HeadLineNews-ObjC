@@ -69,6 +69,7 @@
 		4273DA732752CAF80078243D /* UIImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIImage.m; sourceTree = "<group>"; };
 		4273DA752752CB290078243D /* NSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSData.h; sourceTree = "<group>"; };
 		4273DA762752CB480078243D /* UIImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImage.h; sourceTree = "<group>"; };
+		4273DA7F2754A6C80078243D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		429C8F232743BA4700AB05D9 /* HeadLineNewsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsView.h; sourceTree = "<group>"; };
 		429C8F242743BA4700AB05D9 /* HeadLineNewsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeadLineNewsView.m; sourceTree = "<group>"; };
 		429C8F262743BD1E00AB05D9 /* HeadLineNewsViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeadLineNewsViewDelegate.h; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		426F964E2702FD0E0086BAF0 = {
 			isa = PBXGroup;
 			children = (
+				4273DA7F2754A6C80078243D /* README.md */,
 				426F96592702FD0E0086BAF0 /* HeadLineNews-Objc */,
 				426F96752702FD120086BAF0 /* HeadLineNews-ObjcTests */,
 				426F96802702FD120086BAF0 /* HeadLineNews-ObjcUITests */,
