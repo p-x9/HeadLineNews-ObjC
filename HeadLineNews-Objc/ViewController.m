@@ -233,11 +233,13 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     [self.headlineNewsView addGestureRecognizer:tapGesture];
     
-    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
-    doubleTapGesture.numberOfTapsRequired = 2;
-    [self.headlineNewsView addGestureRecognizer:doubleTapGesture];
-    
-    [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    if (@available(iOS 15, *)){
+        UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
+        doubleTapGesture.numberOfTapsRequired = 2;
+        [self.headlineNewsView addGestureRecognizer:doubleTapGesture];
+        
+        [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    }
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTap:)];
     [self.headlineNewsView addGestureRecognizer:longPressGesture];
@@ -263,7 +265,7 @@
     return stackView;
 }
 
-- (void)startPictureInPicture {
+- (void)startPictureInPicture API_AVAILABLE(ios(15)) {
     self.playerLayer = [[AVSampleBufferDisplayLayer alloc] init];
     self.playerLayer.frame = CGRectMake(0, 500, self.headlineNewsView.bounds.size.width, self.headlineNewsView.bounds.size.height);
     
@@ -278,7 +280,7 @@
     self.pipController = [[AVPictureInPictureController alloc] initWithContentSource:source];
 }
 
-- (void)updateBuffer {
+- (void)updateBuffer API_AVAILABLE(ios(15)) {
     UIGraphicsImageRenderer *imageRenderer = [[UIGraphicsImageRenderer alloc] initWithSize:self.headlineNewsView.bounds.size];
     UIImage *image = [imageRenderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
         [self.headlineNewsView.layer.presentationLayer renderInContext:rendererContext.CGContext];
@@ -288,7 +290,7 @@
     [self.playerLayer enqueueSampleBuffer: image.cmSampleBuffer];
 }
 
-- (void)handleDisplayLink:(CADisplayLink *)displayLink{
+- (void)handleDisplayLink:(CADisplayLink *)displayLink API_AVAILABLE(ios(15)) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateBuffer];
     });
@@ -306,7 +308,7 @@
     }
 }
 
-- (void)doubleTap:(UIGestureRecognizer *)sender {
+- (void)doubleTap:(UIGestureRecognizer *)sender API_AVAILABLE(ios(15)) {
     if(!self.pipController){
         [self startPictureInPicture];
     }
