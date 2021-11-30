@@ -11,6 +11,6 @@ https://user-images.githubusercontent.com/50244599/143817117-1d5a2e57-48ef-4224-
 
 # Usage
 - single Tap: start animating. If you tap during the animation, the full article will open in your browser.
-- double Tap: start Picture in picture
+- double Tap: start Picture in picture (Requires iOS15.0 or higher)
 - long press: stop
 
