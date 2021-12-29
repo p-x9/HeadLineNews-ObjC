@@ -11,4 +11,5 @@
 
 @interface NSData(HeadLineNews)
 -(CMBlockBufferRef)cMBlockBuffer;
+-(NSStringEncoding)stringEncoding;
 @end
