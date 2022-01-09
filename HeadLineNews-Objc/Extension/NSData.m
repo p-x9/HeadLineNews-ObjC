@@ -14,8 +14,12 @@
     NSMutableData *data = [self mutableCopy];
     CMBlockBufferRef buffer;
     CMBlockBufferCreateWithMemoryBlock(kCFAllocatorDefault, (void*)[data bytes], data.length, kCFAllocatorNull, NULL, 0, self.length, 0, &buffer);
-    return buffer;
     
+    return buffer;
+}
+
+-(NSStringEncoding)stringEncoding {
+    return [NSString stringEncodingForData:self encodingOptions:NULL convertedString:NULL usedLossyConversion:NULL];
 }
 
 @end
